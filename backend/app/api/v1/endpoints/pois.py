@@ -1,11 +1,13 @@
 from typing import List
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, delete
 
 from app.api import deps
 from app.models.poi import POI
 from app.schemas.poi import POICreate, POIUpdate, POIInDB
+from app.schemas.location import LocationQuery
+from app.utils.geofence import is_within_radius
 from app.core.auth import get_current_user
 
 router = APIRouter()
@@ -30,6 +32,34 @@ async def create_poi(
     await db.refresh(poi)
     return poi
 
+@router.get("/nearby", response_model=List[POIInDB])
+async def get_nearby_pois(
+    *,
+    db: AsyncSession = Depends(deps.get_db),
+    latitude: float = Query(..., ge=-90, le=90),
+    longitude: float = Query(..., ge=-180, le=180),
+    radius: float = Query(default=20.0, gt=0, le=1000),
+    current_user: dict = Depends(get_current_user)
+) -> List[POIInDB]:
+    """Get POIs within specified radius of user's location."""
+    # First, get all POIs
+    result = await db.execute(select(POI))
+    all_pois = result.scalars().all()
+    
+    # Filter POIs within radius
+    nearby_pois = [
+        poi for poi in all_pois
+        if is_within_radius(
+            latitude,
+            longitude,
+            poi.latitude,
+            poi.longitude,
+            radius
+        )
+    ]
+    
+    return nearby_pois
+
 @router.get("/{poi_id}", response_model=POIInDB)
 async def get_poi(
     *,
@@ -37,14 +67,16 @@ async def get_poi(
     poi_id: int,
     current_user: dict = Depends(get_current_user)
 ) -> POIInDB:
-    """Get POI by ID."""
-    result = await db.execute(select(POI).filter(POI.id == poi_id))
+    """Get a POI by ID."""
+    result = await db.execute(select(POI).where(POI.id == poi_id))
     poi = result.scalar_one_or_none()
-    if not poi:
+    
+    if poi is None:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="POI not found"
+            detail=f"POI with ID {poi_id} not found"
         )
+    
     return poi
 
 @router.get("", response_model=List[POIInDB])

@@ -1,15 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from .core.config import get_settings
-from .core.supabase import get_supabase_client
+from .core.config import settings
 from .api.v1.api import api_router
-
-settings = get_settings()
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
-    version=settings.VERSION,
     openapi_url=f"{settings.API_V1_STR}/openapi.json"
 )
 
@@ -21,9 +17,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-# Initialize Supabase client
-supabase = get_supabase_client()
 
 # Include API router
 app.include_router(api_router, prefix=settings.API_V1_STR)
