@@ -1,0 +1,117 @@
+[
+  {
+    "title": "Set up Supabase with tables for users, pois, and tours",
+    "body": "As a developer, I want to set up Supabase with tables for `users`, `pois`, and `tours` so that we can store location content.\n\n**Acceptance Criteria:**\n- Supabase tables created\n- Foreign keys and indexes set\n- Supabase project environment initialized",
+    "labels": ["epic:infrastructure", "points:2"]
+  },
+  {
+    "title": "Configure FastAPI backend with Supabase JWT auth",
+    "body": "As a developer, I want to configure a FastAPI backend project with auth middleware using Supabase JWT.\n\n**Acceptance Criteria:**\n- Middleware to validate JWT tokens\n- Authenticated routes for users\n- Dev environment secrets and local testing confirmed",
+    "labels": ["epic:infrastructure", "points:2"]
+  },
+  {
+    "title": "Deploy FastAPI backend to Railway",
+    "body": "As a developer, I want to deploy the FastAPI backend to Railway with HTTPS enabled.\n\n**Acceptance Criteria:**\n- Live backend endpoint available\n- HTTPS enabled\n- Basic health route returns 200",
+    "labels": ["epic:infrastructure", "points:1"]
+  },
+  {
+    "title": "Implement POI CRUD endpoints in FastAPI",
+    "body": "As an admin, I want to create, update, and delete POIs via FastAPI endpoints.\n\n**Acceptance Criteria:**\n- POST/PUT/DELETE routes for POIs\n- Validation for coordinates and URLs\n- Full test coverage",
+    "labels": ["epic:poi-management", "points:3"]
+  },
+  {
+    "title": "Implement location-based POI retrieval",
+    "body": "As a user, I want to fetch a list of POIs near my GPS coordinates.\n\n**Acceptance Criteria:**\n- Query returns POIs within 20m radius\n- Includes metadata and playback URL",
+    "labels": ["epic:poi-management", "points:3"]
+  },
+  {
+    "title": "Test geofence logic with mock GPS data",
+    "body": "As a developer, I want to test geofence matching within a 20-meter radius.\n\n**Acceptance Criteria:**\n- Unit tests simulate GPS drift\n- Edge cases handled for radius tolerance",
+    "labels": ["epic:poi-management", "points:2"]
+  },
+  {
+    "title": "Enable autoplay audio on POI proximity",
+    "body": "As a user, I want audio narration to autoplay when I enter a POI's geofence.\n\n**Acceptance Criteria:**\n- Audio autoplays from S3 URL\n- Works reliably on mobile devices",
+    "labels": ["epic:voice-playback", "points:3"]
+  },
+  {
+    "title": "Support fallback to browser TTS if no audio",
+    "body": "As a developer, I want to support fallback to browser TTS if no audio file is found.\n\n**Acceptance Criteria:**\n- POI falls back to TTS with formatted text\n- Works on Chrome, Safari",
+    "labels": ["epic:voice-playback", "points:2"]
+  },
+  {
+    "title": "Upload narration MP3 files to AWS S3",
+    "body": "As an admin, I want to upload MP3 narration files to AWS S3 via the dashboard.\n\n**Acceptance Criteria:**\n- S3 upload via presigned URLs\n- File validated and URL stored in Supabase",
+    "labels": ["epic:voice-playback", "points:2"]
+  },
+  {
+    "title": "Render user and POIs on interactive map",
+    "body": "As a user, I want to see my real-time location and nearby POIs on a map.\n\n**Acceptance Criteria:**\n- Map renders location pin and POIs\n- Auto zooms and refreshes position",
+    "labels": ["epic:map-ui", "points:3"]
+  },
+  {
+    "title": "Use Mapbox/Leaflet for map rendering",
+    "body": "As a developer, I want to use Mapbox or Leaflet to render an interactive map with POI markers.\n\n**Acceptance Criteria:**\n- POI markers clickable\n- Map loads efficiently",
+    "labels": ["epic:map-ui", "points:2"]
+  },
+  {
+    "title": "Enable pause, skip, replay of audio",
+    "body": "As a user, I want to pause, skip, or replay narration from the UI.\n\n**Acceptance Criteria:**\n- Player UI controls available\n- Playback state managed cleanly",
+    "labels": ["epic:map-ui", "points:2"]
+  },
+  {
+    "title": "Create and join group tour sessions",
+    "body": "As a user, I want to create a group session and invite others with a session code.\n\n**Acceptance Criteria:**\n- Session created with unique ID\n- Supabase sync participants",
+    "labels": ["epic:group-session", "points:3"]
+  },
+  {
+    "title": "Sync current POI across group",
+    "body": "As a participant, I want my device to stay in sync with the leader’s current POI.\n\n**Acceptance Criteria:**\n- Realtime updates via Supabase\n- Minimal delay and replay-safe",
+    "labels": ["epic:group-session", "points:3"]
+  },
+  {
+    "title": "Broadcast POI changes with Supabase Realtime",
+    "body": "As a developer, I want to implement Supabase Realtime to broadcast POI changes.\n\n**Acceptance Criteria:**\n- Events pushed to all group participants\n- Logs show successful dispatch",
+    "labels": ["epic:group-session", "points:2"]
+  },
+  {
+    "title": "Create trivia questions per POI",
+    "body": "As an admin, I want to create trivia questions linked to POIs.\n\n**Acceptance Criteria:**\n- Form for question, answers, correct index\n- Linked to `poi_id`",
+    "labels": ["epic:quiz", "points:2"]
+  },
+  {
+    "title": "Answer quiz questions and see results",
+    "body": "As a user, I want to answer quiz questions and see correct answers immediately.\n\n**Acceptance Criteria:**\n- Frontend quiz flow working\n- Feedback and score stored",
+    "labels": ["epic:quiz", "points:3"]
+  },
+  {
+    "title": "Persist quiz scores per user",
+    "body": "As a developer, I want to persist quiz scores and progress per user.\n\n**Acceptance Criteria:**\n- Progress saved in Supabase\n- Admin view of user completion",
+    "labels": ["epic:quiz", "points:2"]
+  },
+  {
+    "title": "Admin dashboard for POI and audio upload",
+    "body": "As an admin, I want a dashboard to view/edit POIs and upload content.\n\n**Acceptance Criteria:**\n- Auth-protected dashboard\n- File and text inputs validated",
+    "labels": ["epic:admin-dashboard", "points:3"]
+  },
+  {
+    "title": "Analytics: View POI visits and tour completions",
+    "body": "As an admin, I want to see analytics like POI visits and tour completions.\n\n**Acceptance Criteria:**\n- Supabase queries for engagement\n- Charts or summary stats rendered",
+    "labels": ["epic:admin-dashboard", "points:2"]
+  },
+  {
+    "title": "Deploy frontend to Vercel with environment setup",
+    "body": "As a developer, I want to deploy the frontend to Vercel with proper environment variables.\n\n**Acceptance Criteria:**\n- Live domain\n- Vercel build pipeline works",
+    "labels": ["epic:launch", "points:1"]
+  },
+  {
+    "title": "End-to-end test of group tour flow",
+    "body": "As a QA, I want to test the full tour experience with 3 users in a group.\n\n**Acceptance Criteria:**\n- Session join, POI sync, audio trigger tested\n- Devices tested: mobile + tablet",
+    "labels": ["epic:launch", "points:2"]
+  },
+  {
+    "title": "Soft launch beta with 10 users and collect feedback",
+    "body": "As a team, I want to soft launch a beta with 10 real users and collect feedback.\n\n**Acceptance Criteria:**\n- Feedback form or chat group created\n- Bugs/insights documented",
+    "labels": ["epic:launch", "points:3"]
+  }
+]
